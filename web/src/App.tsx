@@ -13,10 +13,11 @@ export const App = () => {
                     'Content-Type': 'application/json',
                 },
             });
+
             const data = await response.json();
 
             if (response.ok) {
-                window.location.href = data.data;
+                window.location.href = data.url;
             }
         },
     });
