@@ -19,7 +19,7 @@ export const App = () => {
     });
 
     return (
-        <div className="w-full min-h-screen bg-ens-light-background-secondary pt-12">
+        <div className="w-full min-h-screen bg-ens-light-background-secondary pt-12 px-4">
             <div className="p-4 border-ens-light-border text-center bg-ens-light-background-primary text-ens-light-text-primary mx-auto max-w-xl w-full border rounded-xl space-y-4">
                 <h1 className="font-bold text-2xl">Claim Music Stage POAP</h1>
                 <p>Click the button below to claim your POAP.</p>
