@@ -1,0 +1,26 @@
+{
+    "name": "@poap-distributor/backend",
+    "module": "src/index.ts",
+    "type": "module",
+    "devDependencies": {
+        "@types/bun": "^1.1.13",
+        "drizzle-kit": "^0.28.1",
+        "pino-pretty": "^13.0.0"
+    },
+    "peerDependencies": {
+        "typescript": "^5.0.0"
+    },
+    "dependencies": {
+        "@hono/zod-validator": "^0.4.1",
+        "drizzle-orm": "^0.36.2",
+        "envalid": "^8.0.0",
+        "hono": "^4.6.10",
+        "pino": "^9.5.0",
+        "zod": "^3.23.8"
+    },
+    "scripts": {
+        "dev": "NODE_ENV=development bun run --watch src/index.ts | pino-pretty",
+        "start": "NODE_ENV=production bun run src/index.ts",
+        "typecheck": "tsc --noEmit"
+    }
+}
