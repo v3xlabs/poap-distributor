@@ -6,6 +6,8 @@ import { links } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { bearerAuth } from "hono/bearer-auth";
 import { environment } from "../util/environment";
+import { checkClaims } from "../checker";
+import { streamSSE } from "hono/streaming";
 
 // Sub router at /admin
 export const adminRouter = createBaseApp()
@@ -19,7 +21,7 @@ export const adminRouter = createBaseApp()
         zValidator(
             "param",
             z.object({
-                id: z.number(),
+                id: z.coerce.number(),
             })
         ),
         async (c) => {
@@ -96,7 +98,7 @@ export const adminRouter = createBaseApp()
         zValidator(
             "param",
             z.object({
-                id: z.number(),
+                id: z.coerce.number(),
             })
         ),
         zValidator(
@@ -134,7 +136,7 @@ export const adminRouter = createBaseApp()
         zValidator(
             "param",
             z.object({
-                id: z.number(),
+                id: z.coerce.number(),
             })
         ),
         async (c) => {
@@ -154,4 +156,22 @@ export const adminRouter = createBaseApp()
 
             return c.json({ success: true });
         }
+    )
+    .get("/check_poaps", (c) =>
+        streamSSE(c, async (stream) => {
+            const checker = checkClaims(c.var.logger, (message) => {
+                stream.writeSSE({
+                    data: message,
+                    event: "message",
+                });
+            });
+
+            await checker;
+            stream.writeSSE({
+                data: "done",
+                event: "done",
+            });
+            await stream.sleep(200);
+            await stream.close();
+        })
     );

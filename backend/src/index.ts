@@ -7,6 +7,8 @@ import {
     requestLoggerMiddleware,
 } from "./util/hono";
 import { routesRouter } from "./routes/_";
+import { checkClaims } from "./checker";
+import { logger } from "./util/logger";
 
 const app = new Hono()
     .use(cors())
@@ -19,5 +21,15 @@ const app = new Hono()
     .use(requestLoggerMiddleware)
     .route("/", routesRouter)
     .onError(honoErrorHandler);
+
+setInterval(async () => {
+    const _logger = logger.child({
+        type: "interval",
+    });
+
+    await checkClaims(_logger).catch((e) => {
+        _logger.error(e, "Failed to check POAP claims");
+    });
+}, 1000 * 60 * 5);
 
 export default app;
