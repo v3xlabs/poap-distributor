@@ -25,6 +25,14 @@ export const App = () => {
         <div className="w-full min-h-screen bg-ens-light-background-secondary pt-12 px-4">
             <div className="p-4 border-ens-light-border text-center bg-ens-light-background-primary text-ens-light-text-primary mx-auto max-w-xl w-full border rounded-xl space-y-4">
                 <h1 className="font-bold text-2xl">Claim Music Stage POAP</h1>
+                <p>Music is really cool, and so are you!</p>
+                <div className="h-[128px] w-full">
+                    <img
+                        src="../public/music-poap.png"
+                        alt="Music Stage"
+                        className="h-full object-contain mx-auto"
+                    />
+                </div>
                 <p>Click the button below to claim your POAP.</p>
                 <button
                     className="bg-ens-light-blue-primary w-full text-ens-light-background-primary px-4 py-2 rounded-md block"
