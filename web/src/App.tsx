@@ -28,7 +28,7 @@ export const App = () => {
                 <p>Music is really cool, and so are you!</p>
                 <div className="h-[128px] w-full">
                     <img
-                        src="../public/music-poap.png"
+                        src="/music-poap.png"
                         alt="Music Stage"
                         className="h-full object-contain mx-auto"
                     />
