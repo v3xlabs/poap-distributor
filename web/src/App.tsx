@@ -1,11 +1,12 @@
 import './global.css';
 
 import { useMutation } from '@tanstack/react-query';
+import { FiLoader } from 'react-icons/fi';
 
 export const BACKEND_URL = 'https://music-poap-distributor.c5.v3x.systems';
 
 export const App = () => {
-    const { mutate } = useMutation({
+    const { mutate, isPending, isError, error } = useMutation({
         mutationFn: async () => {
             const response = await fetch(`${BACKEND_URL}/poap`, {
                 method: 'POST',
@@ -18,7 +19,11 @@ export const App = () => {
 
             if (response.ok) {
                 window.location.href = data.url;
+
+                return;
             }
+
+            throw new Error(data.error);
         },
     });
 
@@ -36,11 +41,22 @@ export const App = () => {
                 </div>
                 <p>Click the button below to claim your POAP.</p>
                 <button
-                    className="bg-ens-light-blue-primary w-full text-ens-light-background-primary px-4 py-2 rounded-md block"
+                    className="bg-ens-light-blue-primary flex justify-between items-center w-full text-ens-light-background-primary px-4 py-2 rounded-md disabled:opacity-50"
+                    disabled={isPending}
                     onClick={() => mutate()}
                 >
-                    Claim POAP
+                    <span></span>
+                    <span>Claim POAP</span>
+                    <span>
+                        {isPending && <FiLoader className="animate-spin" />}
+                    </span>
                 </button>
+                {isError && (
+                    <div className="text-red-500">
+                        <p className="font-bold">Error claiming POAP</p>
+                        <p>{error.message}</p>
+                    </div>
+                )}
             </div>
         </div>
     );
