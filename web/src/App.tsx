@@ -2,17 +2,20 @@ import './global.css';
 
 import { useMutation } from '@tanstack/react-query';
 
-export const BACKEND_URL = 'https://poap-distributor.c5.v3x.systems';
+export const BACKEND_URL = 'https://music-poap-distributor.c5.v3x.systems';
 
 export const App = () => {
     const { mutate } = useMutation({
         mutationFn: async () => {
-            // fetch poap from backend url /poap and if successfull redirect user to link inside {data: 'https://...'}
-            const response = await fetch(`${BACKEND_URL}/poap`);
+            const response = await fetch(`${BACKEND_URL}/poap`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
             const data = await response.json();
 
             if (response.ok) {
-                // eslint-disable-next-line no-undef
                 window.location.href = data.data;
             }
         },
