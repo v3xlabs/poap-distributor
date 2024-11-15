@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNull, or } from "drizzle-orm";
 import { db } from "./db";
 import { links, links as linksTable } from "./db/schema";
 import { batcher } from "./util/batch";
@@ -36,7 +36,7 @@ export const checkClaims = async (
     emit("Checking POAP claims");
 
     const usedLinks = await db.query.links.findMany({
-        where: eq(linksTable.claimed, false),
+        where: or(eq(linksTable.claimed, false), isNull(linksTable.claimed)),
     });
 
     const batches = batcher(usedLinks, 10);
